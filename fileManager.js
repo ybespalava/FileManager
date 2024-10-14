@@ -1,15 +1,7 @@
 const readline = require('readline');
 const {
-    printEOL,
-    printCPUsInfo,
-    printHomeDir,
-    printUsername,
-    printArchitecture,
-    copyFile,
-    moveFile,
-    deleteFile,
-    renameFile,
-    calculateFileHash
+    printEOL, printCPUsInfo, printHomeDir, printUsername, printArchitecture,
+    copyFile, moveFile, deleteFile, renameFile, calculateFileHash
 } = require('./basicOperations');
 const { printCurrentPath, listFilesAndFolders, changeDirectory, goUp } = require('./navigation');
 const { compressFile, decompressFile } = require('./compression'); // Importing the new module
@@ -20,6 +12,7 @@ const rl = readline.createInterface({
     prompt: 'FileManager> '
 });
 
+// Parsing command-line arguments
 const args = process.argv.slice(2);
 const parsedArgs = {};
 args.forEach(arg => {
@@ -28,7 +21,14 @@ args.forEach(arg => {
         parsedArgs[key] = value || true;
     }
 });
+
+// Handling username input from the command line
 const username = parsedArgs.username;
+
+if (!username) {
+    console.error('Please provide a username using the syntax: npm run start -- --username=your_username');
+    process.exit(1); // Exit the program if username is missing
+}
 
 function printWelcomeMessage() {
     console.log(`Welcome to the File Manager, ${username}!`);
@@ -115,6 +115,7 @@ rl.on('line', (input) => {
     rl.prompt();
 });
 
+// Welcome message and initial prompt
 printWelcomeMessage();
 printCurrentPath();
 rl.prompt();
